@@ -4,12 +4,14 @@ from keras.callbacks import EarlyStopping
 from deeplearning_model import faceMask_model
 import os
 from keras.models import load_model
+from my_utils import predict_with_model
 
 ##########################
 # Switches
 SAMPLE = False
 TRAIN = False
-TEST = True
+TEST = False
+PREDICT = True
 ##########################
 
 if SAMPLE:
@@ -65,3 +67,11 @@ if TEST:
     # Evaluate Test dataset
     print("Evaluate Test data:")
     saved_model.evaluate(test_generators)
+
+if PREDICT:
+    img_path = '/home/naseem/PycharmProjects/DetectFaceMask-ComputerVision-python/FaceMaskDataset/Test' \
+               '/WithoutMask/53.png'
+    model = load_model('/home/naseem/PycharmProjects/DetectFaceMask-ComputerVision-python/Model.h5')
+
+    prediction = predict_with_model(img_path, model)
+    print('Prediction: ', prediction)
