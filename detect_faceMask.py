@@ -9,8 +9,14 @@ while True:
     success, img = cap.read()
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     faces = face_classifier.detectMultiScale(img_rgb)
-    print(faces)
-    
+    # print(faces)
+
+    for (x, y, w, h) in faces:
+        cv2.rectangle(
+            img, (x, y), (x+w, y+h),
+            (0, 255, 0), 2
+        )
+
     cv2.imshow('Webcam', img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
