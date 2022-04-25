@@ -34,7 +34,14 @@ while True:
             prediction = model.predict(roi)[0]
             # print(prediction)
             predict_facemask = facemask_label[prediction.argmax()]
-            print(predict_facemask)
+            # print(predict_facemask)
+
+            # Put predicted class on top of rectangle box
+            cv2.putText(
+                img, str(predict_facemask), (x, y),
+                cv2.FONT_HERSHEY_PLAIN, 2,
+                (0, 255, 0), 2
+            )
 
     cv2.imshow('Webcam', img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
