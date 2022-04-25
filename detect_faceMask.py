@@ -10,6 +10,7 @@ model = load_model('/home/naseem/PycharmProjects/DetectFaceMask-ComputerVision-p
 cap = cv2.VideoCapture(0)
 
 facemask_label = ['With Maks', 'Without Mask']
+color = (0, 255, 255)
 
 while True:
     success, img = cap.read()
@@ -20,7 +21,7 @@ while True:
     for (x, y, w, h) in faces:
         cv2.rectangle(
             img, (x, y), (x+w, y+h),
-            (0, 255, 0), 2
+            color, 2
         )
         face_roi = img_rgb[y:y+h, x:x+w]
         face_roi = cv2.resize(face_roi, (70, 70), interpolation=cv2.INTER_AREA)
@@ -34,13 +35,20 @@ while True:
             prediction = model.predict(roi)[0]
             # print(prediction)
             predict_facemask = facemask_label[prediction.argmax()]
+            # print(prediction.argmax())
             # print(predict_facemask)
+
+            # Color
+            if prediction.argmax() == 1:
+                color = (0, 0, 255)
+            else:
+                color = (0, 255, 0)
 
             # Put predicted class on top of rectangle box
             cv2.putText(
-                img, str(predict_facemask), (x, y),
+                img, str(predict_facemask), (x, y-10),
                 cv2.FONT_HERSHEY_PLAIN, 2,
-                (0, 255, 0), 2
+                color, 2
             )
 
     cv2.imshow('Webcam', img)
