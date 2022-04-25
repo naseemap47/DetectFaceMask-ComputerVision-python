@@ -2,6 +2,7 @@ from my_utils import sample_images
 from my_utils import create_generators
 from keras.callbacks import EarlyStopping
 from deeplearning_model import faceMask_model
+import os
 
 SAMPLE = False
 TRAIN = True
@@ -39,4 +40,11 @@ if TRAIN:
         validation_data=val_generators,
         callbacks=[early_stopping]
     )
-    
+
+    # Save Model in a h5 format
+    if os.path.isfile(
+            '/home/naseem/PycharmProjects/DetectFaceMask-ComputerVision-python/Model.h5'
+    ) is False:
+        model.save(
+            '/home/naseem/PycharmProjects/DetectFaceMask-ComputerVision-python/Model.h5'
+        )
