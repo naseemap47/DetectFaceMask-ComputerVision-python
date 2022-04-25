@@ -3,9 +3,14 @@ from my_utils import create_generators
 from keras.callbacks import EarlyStopping
 from deeplearning_model import faceMask_model
 import os
+from keras.models import load_model
 
+##########################
+# Switches
 SAMPLE = False
-TRAIN = True
+TRAIN = False
+TEST = True
+##########################
 
 if SAMPLE:
     path_img = '/home/naseem/PycharmProjects/DetectFaceMask-ComputerVision-python/FaceMaskDataset/Test/WithMask'
@@ -48,3 +53,15 @@ if TRAIN:
         model.save(
             '/home/naseem/PycharmProjects/DetectFaceMask-ComputerVision-python/Model.h5'
         )
+
+if TEST:
+    saved_model = load_model('/home/naseem/PycharmProjects/DetectFaceMask-ComputerVision-python/Model.h5')
+    saved_model.summary()
+
+    # Evaluate Validation dataset
+    print("Evaluate Validation data:")
+    saved_model.evaluate(val_generators)
+
+    # Evaluate Test dataset
+    print("Evaluate Test data:")
+    saved_model.evaluate(test_generators)
