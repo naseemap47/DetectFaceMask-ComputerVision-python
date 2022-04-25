@@ -9,6 +9,8 @@ face_classifier = cv2.CascadeClassifier(
 model = load_model('/home/naseem/PycharmProjects/DetectFaceMask-ComputerVision-python/Model.h5')
 cap = cv2.VideoCapture(0)
 
+facemask_label = ['With Maks', 'Without Mask']
+
 while True:
     success, img = cap.read()
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -30,7 +32,9 @@ while True:
             roi = np.expand_dims(roi, axis=0)
 
             prediction = model.predict(roi)[0]
-            print(prediction)
+            # print(prediction)
+            predict_facemask = facemask_label[prediction.argmax()]
+            print(predict_facemask)
 
     cv2.imshow('Webcam', img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
