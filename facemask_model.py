@@ -1,6 +1,7 @@
 from my_utils import sample_images
 from my_utils import create_generators
 from keras.callbacks import EarlyStopping
+from deeplearning_model import faceMask_model
 
 SAMPLE = False
 TRAIN = True
@@ -23,3 +24,19 @@ early_stopping = EarlyStopping(
     restore_best_weights=True,
     verbose=1
 )
+
+if TRAIN:
+    model = faceMask_model(2)
+    model.compile(
+        optimizer='adam',
+        loss='categorical_crossentropy',
+        metrics=['accuracy']
+    )
+    model.fit(
+        train_generators,
+        batch_size=32,
+        epochs=50,
+        validation_data=val_generators,
+        callbacks=[early_stopping]
+    )
+    
